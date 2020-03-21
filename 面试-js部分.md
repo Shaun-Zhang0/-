@@ -189,5 +189,44 @@ it.next().value;    // a end
                     // 3
 it.next().value;    // b end
 
-`
+```
+## react
 
+### 生命周期
+* 挂载和卸载
+1. constructor()
+   完成了React数据初始化，它接受两个参数：props和context，当想在函数内部使用这两个参数时，需使用super()传入这两个参数。
+2. componentWillMount()
+   它表示组件经过了constructor()初始化后, 但是还没有渲染dom时。
+3. componentDidMount() 
+   组件第一次渲染完成，此时dom节点已经生成，可以在这里调用ajax请求，返回数据setState后 组件会重新渲染
+4. componentWillUnmount()
+   在此处完成组件的卸载和数据的销毁。
+   清除定时器，移除监听器
+
+* 更新过程
+1. componentWillReceiveProps(nextProps)
+   在接受父组件改变后的props需要重新渲染组件时用到的比较多
+   接受一个参数nextProps
+2. shouldComponentUpadte(nextProps,nextState)
+   主要用于性能优化(部分更新)
+   唯一用于控制组件重新渲染的生命周期, 由于在react中, setState以后, state发生改变, 组件就会进入重新渲染流程,在这里return false 可以阻止组件的更新
+   因为react父组件的重新渲染会导致其所有的子组件的重新渲染。这个时候我们是不需要所有的子组件都跟着重新渲染的，因此需要子组件的该生命周期中做出判断
+3. componentWillUpdate(nextProps,nextState)
+   shouldComponentUpdate返回true以后, 组件进入重新渲染的流程, 进入componentWillUpdate, 这里同样可以拿到nextProps和nextState。
+4. componentDidUpdate(prevProps,prevState)
+   组件更新完毕后, react只会第一次初始化成功会进入componentDidMount, 之后渲染只会进入到componentDidUpdate这个生命周期, 这里可以拿到更新前的props和state
+5. render()
+   render函数会插入jsx生成dom结构, react会生成一份虚拟dom树,在每一次组件更新时,再此react 会通过其diff算法比较更新前后的新旧dom树, 比较以后, 找到最小的有差异的dom节点
+
+* 新增的生命周期函数
+1. getDerivedStateFromProps(nextProps,preState) 
+   这个生命周期主要是用于替代componentWillReceive(nextProps)
+   在componentWillReceiveProps中, 我们通常会做两件事, 一是根据props来更新state, 二是触发一些回调, 如动画或者页面跳转
+   在新的版本中, 官方将更新模块分给了getDerivedStateFromProps,触发回调分给了componentDidUpdate(), 并且在getDerivedStateFromProps中禁止组件去访this.props, 强制让开发者去比较nextProps和prevState的值。以确保开发者调用这个生命周期时， 就是根据当前的props来更新组件的state，而不是让一些组件自身的状态变得更加不可预测。
+2. getSnapshotBeforeUpdate
+   主要解决react 开启异步渲染模式后，componentDidUpdate中使用componentWillUpdate中读取的dom元素状态可能是不安全的。
+   所以使用getSnapshotBeforeUpdate替代了componentWillUpdate
+   因为getSnapshotBeforeUpdate会在最终的render之前被调用, 保证了getSnapshotBeforeUpdate获取到的dom值可以保证和componentDidUpdate中的一致。
+
+   ![avatar](https://upload-images.jianshu.io/upload_images/1888124-b29f9bdbd107d51e.png?imageMogr2/auto-orient/strip|imageView2/2/format/webp)
