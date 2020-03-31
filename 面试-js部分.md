@@ -230,5 +230,101 @@ it.next().value;    // b end
    因为getSnapshotBeforeUpdate会在最终的render之前被调用, 保证了getSnapshotBeforeUpdate获取到的dom值可以保证和componentDidUpdate中的一致。
 
    ![avatar](https://upload-images.jianshu.io/upload_images/1888124-b29f9bdbd107d51e.png?imageMogr2/auto-orient/strip|imageView2/2/format/webp)
+## 创建单向链表
+```
+// 节点类
+function Node(element) {
+    this.element = element; // 存储数据部分
+    this.next = null; // 存储下一个节点的地址
+}
 
-  
+function LinkList() {
+    this.head = new Node('head');
+    this.find = findNode;
+    this.insert = insertNode;
+    this.remove = removeNode;
+    this.showNode = showNode;
+    this.findPrevNode = findPrevNode;
+}
+/**
+ * 查找节点
+ * @param element 节点element值
+ */
+function findNode(item) {
+    var currentNode = this.head; // 获取当前链表的头节点
+    /**
+     * 判断节点的element是否与要找的节点相同
+     * 是 - 跳出循环
+     * 否 - 通过当前节点的next找到下一个节点的地址 继续判断
+     */
+    while (currentNode.element != item) {
+        currentNode = currentNode.next;
+    }
+    return currentNode; // 返回节点
+
+}
+
+/**
+ * 
+ * @param element 
+ */
+function findPrevNode(element) {
+    var currentNode = this.head; // 获取当前链表的头结点
+    /**
+     * 判断当前节点的next指针的指向是否为element
+     * 是 - 返回当前节点
+     */
+    while (currentNode.next !== null && currentNode.next.element !== element) {
+        currentNode = currentNode.next;
+    }
+    return currentNode;
+}
+
+function removeNode(element) {
+    var prevNode = this.findPrevNode(element);
+    console.log(prevNode);
+
+    if (prevNode.next !== null) {
+        prevNode.next = prevNode.next.next
+    }
+}
+
+/**
+ * 插入节点
+ * @param newElement 插入节点的element值
+ * @param prevElement 插入节点的上一节点的值
+ */
+function insertNode(newElement, prevElement) {
+    var newNode = new Node(newElement);
+    var currentNode = this.find(prevElement);
+    newNode.next = currentNode.next;
+    currentNode.next = newNode;
+}
+
+function showNode() {
+    var currentNode = this.head;
+    /**
+     * 判断是否当前节点的next是否为空
+     * 不为空, 打印下一个节点的值
+     * 为空, 则表示链表结束
+     */
+    var str = '';
+    while (currentNode.next !== null) {
+        // str += currentNode.next.element + '->';
+        console.log(currentNode.next.element);
+        currentNode = currentNode.next;
+    }
+    console.log(str);
+}
+
+var fruits = new LinkList();
+fruits.insert('Apple', 'head');
+fruits.insert('Banana', 'Apple');
+fruits.insert('Pear', 'Banana');
+
+fruits.showNode();
+fruits.remove('Banana');
+fruits.showNode();
+
+
+```
