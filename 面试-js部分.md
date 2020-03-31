@@ -190,6 +190,28 @@ it.next().value;    // a end
 it.next().value;    // b end
 
 ```
+
+## js 原型链
+
+### 原型
+
+1. 在ES6前，js是没有类和继承的概念，因此js是通过原型来实现继承的，在js构造函数中带有一个默认的prototype属性，这个属性是一个对象。prototype对象中有constructor属性，这个属性指向了这个构造函数。同时，每一个实例都有一个_proto_属性指向这个prototype对象，也叫做隐式原型。在调用一个实例的方法时，会先在实例中查找是否有这个方法，没有就去prototype对象中查找。
+2. 原型链的顶端是Object.prototype 指向NULL
+
+* 构造函数和原型之间的关系
+```
+每一个函数都有一个prototype属性，这个属性指向了一个对象，是调用该函数而创建的实例的原型。
+每一个js实例对象在创建的时候就会预制管理另外一个对象，这个对象就是原型，
+每一个实例对象都会从原型从继承属性。
+```
+
+* 实例对象和原型之间的关系
+
+```
+实例对象通过_proto_属性与原型进行相关联。当实例对象读取属性时，如果找不到，就会查找与实例对象相关联的原型中的属性，如果还是没有，就继续往原型的原型中找。
+原型的_proto_指向Object.prototype。
+```
+
 ## react
 
 ### 生命周期
@@ -231,4 +253,9 @@ it.next().value;    // b end
 
    ![avatar](https://upload-images.jianshu.io/upload_images/1888124-b29f9bdbd107d51e.png?imageMogr2/auto-orient/strip|imageView2/2/format/webp)
 
+  
+  ## 事件代理或者事件委托
+  * 利用了事件冒泡，只指定一个事件进行处理，就可以管理某一类事件的事件。
+通过判断e.target.nodeName来判断。
+  
   
