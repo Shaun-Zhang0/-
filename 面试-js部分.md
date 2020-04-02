@@ -338,7 +338,6 @@ function showNode() {
     }
     console.log(str);
 }
-
 var fruits = new LinkList();
 fruits.insert('Apple', 'head');
 fruits.insert('Banana', 'Apple');
@@ -347,6 +346,4 @@ fruits.insert('Pear', 'Banana');
 fruits.showNode();
 fruits.remove('Banana');
 fruits.showNode();
-
-
 ```
