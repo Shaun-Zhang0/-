@@ -105,3 +105,4 @@ console.log(Array.from(new Set([...num1].filter(function(item) {
 // 输出
 [ 1, 2, 4 ]
 ```
+
