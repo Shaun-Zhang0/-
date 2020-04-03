@@ -193,7 +193,9 @@ it.next().value;    // b end
 ## react
 
 ### 生命周期
+
 * 挂载和卸载
+
 1. constructor()
    完成了React数据初始化，它接受两个参数：props和context，当想在函数内部使用这两个参数时，需使用super()传入这两个参数。
 2. componentWillMount()
